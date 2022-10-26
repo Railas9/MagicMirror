@@ -22,6 +22,7 @@
   <body>
     <div class="region fullscreen below"><div class="container"></div></div>
     <div class="region top bar">
+      <button id="togglePlay">Toggle Play</button>
       <div class="container"></div>
       <div class="region top left"><div class="container"></div></div>
       <div class="region top center"><div class="container"></div></div>
@@ -40,6 +41,7 @@
     </div>
     <div class="region fullscreen above"><div class="container"></div></div>
     <script type="text/javascript" src="socket.io/socket.io.js"></script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
     <script type="text/javascript" src="vendor/node_modules/nunjucks/browser/nunjucks.min.js"></script>
     <script type="text/javascript" src="js/defaults.js"></script>
     <script type="text/javascript" src="#CONFIG_FILE#"></script>
@@ -53,5 +55,23 @@
     <script type="text/javascript" src="js/loader.js"></script>
     <script type="text/javascript" src="js/socketclient.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript">
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        const token = "BQC8yD513-WMmR1-uHdaC66FhE3JyjnEla6QGfXVOYbGiqMDgwXZSxBcMQBMrl17AgejjWCHc4L9VDkRNz4S3bo6HH1pyjM9vf_K8YWRu_pZTeK-08TWDaFsaGPwuoNfMnikO4PwywBx7ZPqJzbdKLYEae-_ejMIIE82w5pwmXAgEar0pDpsk0auz7QSNf1zNuKCBw";
+        const player = new Spotify.Player({
+          name: "Web Playback SDK Quick Start Player",
+          getOAuthToken: (cb) => {
+            cb(token);
+          },
+          volume: 0.5
+        });
+
+        document.getElementById("togglePlay").onclick = function () {
+          player.togglePlay();
+        };
+
+        player.connect();
+      };
+    </script>
   </body>
 </html>
