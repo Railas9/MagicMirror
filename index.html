@@ -40,6 +40,49 @@
     </div>
     <div class="region fullscreen above"><div class="container"></div></div>
     <script type="text/javascript" src="socket.io/socket.io.js"></script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script type="module">
+      import myJson from "./modules/MMM-Spotify/USERNAME_token.json" assert { type: "json" };
+
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        const url = "https://api.spotify.com/v1/me/player";
+        const token = myJson.access_token;
+        const player = new Spotify.Player({
+          name: "Web Playback SDK Quick Start Player",
+          getOAuthToken: (cb) => {
+            cb(token);
+          },
+          volume: 0.5
+        });
+
+        player.connect();
+
+        player.addListener("ready", ({ device_id }) => {
+          setTimeout(() => {
+            fetch(url, {
+              method: "put",
+              headers: new Headers({
+                Authorization: "Bearer " + token,
+                "Content-Type": "application/json"
+              }),
+              body: JSON.stringify({
+                device_ids: [device_id]
+              })
+            });
+            setTimeout(() => {
+              fetch(url + "/play", {
+                method: "put",
+                headers: new Headers({
+                  Authorization: "Bearer " + token,
+                  "Content-Type": "application/json"
+                }),
+                body: JSON.stringify({ uris: ["spotify:track:4tRhRLBxIZ34Iw0eCuiC03"] })
+              });
+            }, 6000);
+          }, 5000);
+        });
+      };
+    </script>
     <script type="text/javascript" src="vendor/node_modules/nunjucks/browser/nunjucks.min.js"></script>
     <script type="text/javascript" src="js/defaults.js"></script>
     <script type="text/javascript" src="#CONFIG_FILE#"></script>
