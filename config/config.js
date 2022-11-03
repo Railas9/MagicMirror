@@ -26,7 +26,7 @@ let config = {
 	httpsPrivateKey: "", 	// HTTPS private key path, only require when useHttps is true
 	httpsCertificate: "", 	// HTTPS Certificate path, only require when useHttps is true
 
-	language: "en",
+	language: "fr",
 	locale: "en-US",
 	logLevel: ["INFO", "LOG", "WARN", "ERROR"], // Add "DEBUG" for even more logging
 	timeFormat: 24,
@@ -51,13 +51,13 @@ let config = {
 		},
 		{
 			module: "calendar",
-			header: "US Holidays",
+			header: "Fêtes nationales",
 			position: "top_left",
 			config: {
 				calendars: [
 					{
 						symbol: "calendar-check",
-						url: "webcal://www.calendarlabs.com/ical-calendar/ics/76/US_Holidays.ics"
+						url: "https://www.officeholidays.com/ics-local-name/france"
 					}
 				]
 			}
@@ -73,10 +73,16 @@ let config = {
 				apiKey: "4499ec8d125ca63505b46811e95d84d9"
 			}
 		},
+		/*
+		{
+			module: "compliments",
+			position: "lower_third"
+		},
+		*/
 		{
 			module: "weather",
 			position: "top_right",
-			header: "Weather Forecast",
+			header: "Météo",
 			config: {
 				weatherProvider: "openweathermap",
 				type: "forecast",
